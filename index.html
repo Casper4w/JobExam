@@ -14,13 +14,12 @@
   <script>
     window.$docsify = {
       name: 'DISC 自動化系統',
-      // 加入您的 GitHub 專案路徑，網頁右上角會顯示 GitHub Corner 連結
-      repo: 'Casper4w/JobExam', 
+      repo: 'Casper4w/JobExam',
       
-      // 這裡拿掉 homepage 的強制設定，讓系統自動抓取根目錄的 README.md
+      // 關鍵修改：強制系統去讀取 home.md 這個檔案
+      homepage: 'home.md', 
+      
       loadSidebar: false,
-      
-      // 自動根據 Markdown 的 H2 (##), H3 (###) 產生右側目錄，方便閱讀
       subMaxLevel: 2 
     }
   </script>
