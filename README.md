@@ -1,57 +1,61 @@
-# JobExam
-企業端使用的適性測驗(AI協作版)
-
-# 🚀 企業端招募 - 適性測驗報告_自動生成系統
+# 🚀 JobExam - 企業端招募評測全自動 AI 洞察系統
 
 ## 📝 專案簡介
-本專案旨在將企業端，自動收集面試者填寫的測驗結果，轉化為**全自動化_AI協作面試者的參考資訊**。
+**JobExam** 是一套專為企業招募流程打造的輕量級、全自動化 AI 協作解決方案。
 
-透過整合 Google Workspace 與大型語言模型 (如 Gemini API)，系統能自動接收受測者表單、計算分數、執行專業的 HRBP 視角分析，並最終生成排版精美的 PDF 報告存檔。
-本系統成功將 HR 繁瑣的「算分與製表」行政庶務（屬於 HAS 量表中的 H1/H2 高度自動化等級）交由系統處理，讓面試官與主管能將寶貴的時間專注於「深度面談與特質對焦」（H3 人機協作等級）。
+本專案旨在將「候選人填寫測驗」到「面試官取得參考報告」的繁瑣過程完全自動化。系統透過前端（Google 表單）自動收集面試者的測驗結果，並串接 Generative AI (GAI) 進行深度分析，進一步將填寫的原始答案提煉為具備高度參考價值的洞察檔案（PDF），直接提供給面試官。
 
-## 🔄 工作流程 (Workflow)
-本系統的核心運作機制分為以下四個自動化階段：
+**💡 核心優勢：高度客製化**
+本系統架構不侷限於單一測驗！企業可依據自身的人才篩選標準，**將前端表單替換成任何符合企業需求的評測題目**（例如：邏輯測驗、情境判斷、專業技能測試、或適性測驗等），系統皆能透過客製化的 AI 提示詞，產出對應的專業參考資料。
 
-1. **📝 填寫 Google 表單 (Data Input)**
-   - 受測者透過行動裝置或電腦，填寫經過「全雙字詞對齊」與「中性化去標籤」優化的 10 題 DISC 強迫選擇題。
-   - 確保測驗體驗直覺，並有效降低受測者的社會期許誤差 (Social Desirability Bias)。
+本專案將 HR 繁瑣的「算分、解讀與製表」行政庶務交由自動化系統處理，讓面試官與用人主管能將寶貴的時間專注於「深度面談與特質對焦」。
 
-2. **📊 Google Sheet 寫入資料 (Data Storage)**
+## 🔄 核心工作流程 (Workflow)
+整個過程採用 Google 雲端生態系服務，從填寫到檔案產出皆為**零人工介入**的全自動化流程：
+
+1. **📝 前端資料蒐集 (Data Input)**
+   - 候選人透過手機或電腦，填寫企業自訂的評測問卷（Google 表單）。
+   - 介面直覺，確保測驗體驗流暢。
+
+2. **📊 資料存儲與預處理 (Data Storage & Pre-processing)**
    - 表單送出後，原始作答數據即時寫入 Google 試算表。
-   - 試算表內建邏輯，本例以常見的D、I、S、C 測驗為測驗題目，產出可供HR、面試官參考的資料。
+   - 試算表內可建置企業專屬的計分邏輯與預處理機制，為後續 AI 分析準備乾淨的資料。
 
-3. **🧠 GAS 接收資料與 AI 分析 (Data Processing & AI Generation)**
-   - 透過 Google Apps Script (GAS) 設定觸發條件 (Trigger)。
-   - GAS 自動擷取最新一筆分數，並套用預先封裝好的**「資深人資顧問 (HRBP) 提示詞」**，透過 API 呼叫語言模型。
-   - AI 依據核心動機、快慢步調與任務/人際導向，精準產出以下 JSON 格式洞察：
-     - `Section 1`: 性格與行為風格重點
-     - `Section 2`: 適配度與工作風格預測
-     - `Section 3`: 面談追問建議 (行為事例題)
-     - `Section 4`: 最佳互動與管理策略
+3. **🧠 GAI 深度分析與提煉 (GAI Processing & Insight Generation)**
+   - 透過 Google Apps Script (GAS) 設定自動觸發條件 (Trigger)。
+   - GAS 自動擷取最新測驗數據，並套用預先設定好的**「專業人資/面試官視角提示詞」**，呼叫大型語言模型（如 Gemini API）。
+   - GAI 將原始數據提煉為結構化 (JSON) 的專業洞察，涵蓋：
+     - `Section 1`: 候選人特質/能力核心分析
+     - `Section 2`: 職務適配度與風格預測
+     - `Section 3`: 面談追問建議（行為事例題設計）
+     - `Section 4`: 互動與管理建議
 
-4. **📄 PDF 產出與雲端歸檔 (PDF Export & Archiving)**
-   - GAS 將 AI 回傳的 JSON 結構化資料，自動填入預設的 Google 文件 (Google Docs) 報告範本中進行排版。
-   - 將完成的文件轉換為 PDF 格式。
-   - 將 PDF 自動存檔至指定的 Google Drive 資料夾，並可設定自動發送 Email 通知給用人主管或 HR。
+4. **📄 報告自動生成與歸檔 (Report Export & Archiving)**
+   - GAS 將 GAI 回傳的結構化資料，自動填入預設的 Google 文件 (Google Docs) 報告範本中進行精美排版。
+   - 系統自動將文件轉換為 PDF 格式，存檔至指定的 Google Drive 雲端資料夾。
+   - （選配）自動發送 Email 通知用人主管或 HR 查收報告。
 
 ## 🛠️ 技術堆疊 (Tech Stack)
-* **前端介面**: Google Forms
-* **資料庫與計分**: Google Sheets 
-* **後端自動化邏輯**: Google Apps Script (GAS)
-* **AI 核心引擎**: Gemini API (或其他 LLM API)
-* **文件排版與產出**: Google Docs & Google Drive API
+* **前端收集介面**: Google Forms
+* **資料庫與計分引擎**: Google Sheets 
+* **後端自動化中樞**: Google Apps Script (GAS)
+* **AI 核心運算**: Gemini API (亦可抽換為其他 LLM API)
+* **排版與檔案輸出**: Google Docs & Google Drive API
 
-## ✨ 核心特色
-* **極簡的部署成本**：無需架設伺服器，完全依賴 Google 雲端生態系。
-* **專業的 Prompt Engineering**：內建經過深度校調的 DISC 專家提示詞，確保 AI 產出的報告「無冗言贅字、用人主管秒懂」。
-* **標準化 JSON 輸出**：嚴格限制 AI 輸出格式，確保自動化排版過程不會因格式跑掉而中斷。
+## ✨ 系統特色
+* **極簡部署 (Serverless)**：無需架設與維護任何伺服器，完全依賴 Google 雲端生態系即可運作。
+* **隨插即用 (Bring Your Own Test)**：極高的擴充性，支援企業無縫替換成專屬的招募評測題目與計分邏輯。
+* **專業 Prompt Engineering**：系統可內建經過校調的提示詞框架，確保 AI 產出的報告「無冗言贅字、精準到位」，讓用人主管秒懂。
+* **標準化穩定輸出**：嚴格限制 AI 輸出為 JSON 格式，確保自動化排版過程不會因模型幻覺或格式跑版而中斷。
 
 ## 🚀 快速開始 (Getting Started)
-1. 建立 Google 表單與對應試算表範本。
-2. 進入試算表的 `擴充功能` > `Apps Script`，貼上 `Code.gs` 中的程式碼。
-3. 於 GAS 專案屬性中設定您的 `API_KEY` 與 `FOLDER_ID` (目標資料夾 ID)。
-4. 設定試算表的「提交表單時」觸發條件 (Trigger)。
-5. 完成！享受全自動的 DISC 測驗流程。
+本專案為概念架構與實作指南，您可以依照以下步驟在企業內部快速建立這套系統：
+
+1. **建立表單與題庫**：建立您專屬的 Google 表單測驗，並將回覆結果連結至新的 Google 試算表。
+2. **開啟腳本編輯器**：進入該試算表的 `擴充功能` > `Apps Script`，建立新的指令碼專案。
+3. **撰寫自動化邏輯**：依據上述的 [核心工作流程](#-核心工作流程-workflow)，於 GAS 中實作您的資料擷取、API 串接（如 Gemini API）以及 Google Docs 自動填寫與轉存 PDF 的程式碼。
+4. **設定環境變數**：確保在您的腳本或專案屬性中設定必要的金鑰與 ID（例如 `API_KEY`、PDF 目標存檔的 `FOLDER_ID` 以及 Google Docs 的範本 ID）。
+5. **掛載觸發條件**：設定 GAS 的「提交表單時」觸發條件 (Trigger)，即可完成全自動化流程佈署。
 
 ---
 *Developed with ❤️ for better HR Tech & Human-AI Collaboration.*
